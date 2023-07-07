@@ -1,13 +1,13 @@
-# Ejercicio 6 del TP1: React ![React Icon](./src/assets/react.svg)
+# Ejercicio 4 del TP de Backend ![React Icon](./src/assets/react.svg)
 
 ## Descripción
 
 Crear un proyecto de react que muestre un formulario con un input y un button
-que permite guardar un color en el localstorage.
+que permite guardar un color en el Backend.
 
 ## Link Versión en Producción
 
-[Netlify](https://ej6-tp1-react-rollingcode-romerouro.netlify.app/)
+(Aún no disponible)
 
 ## Tecnologias / Herramientas 🛠
 
@@ -25,7 +25,7 @@ Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
 1.  **Clona el repositorio:** En tu línea de comandos, ejecuta el siguiente comando para clonar el repositorio:
 
     ```
-    git clone https://github.com/jgromerou/ej6-practico1-react.git
+    git clone https://github.com/jgromerou/ej4-practico-backend.git
     ```
 
 2.  **Accede al directorio:** Ve al directorio de la aplicación clonada:
