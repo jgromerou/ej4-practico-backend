@@ -44,9 +44,17 @@ const FormColor = () => {
             );
             reset();
           } else {
+            if (respuestaCreado.status === 400) {
+              Swal.fire(
+                'Ocurrio un error',
+                `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                'error'
+              );
+              return;
+            }
             Swal.fire(
               'Ocurrio un error',
-              `El color ${colorNuevo.nombreColor} no fue creado, intentelo mas tarde`,
+              `El color ${color.nombreColor} no fue creado, intentelo mas tarde`,
               'error'
             );
           }
@@ -63,6 +71,14 @@ const FormColor = () => {
             );
             reset();
           } else {
+            if (respuestaEditado.status === 400) {
+              Swal.fire(
+                'Ocurrio un error',
+                `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                'error'
+              );
+              return;
+            }
             Swal.fire(
               'Ocurrio un error',
               `El color ${color.nombreColor} no fue editado, intentelo mas tarde`,
@@ -85,11 +101,6 @@ const FormColor = () => {
         setValue('nombreColor', respuesta.nombreColor);
         setValue('codigoHexadecimal', respuesta.codigoHexadecimal);
         setValue('codigoRGB', respuesta.codigoRGB);
-        // setValue('descripcionReceta', respuesta.descripcionReceta);
-        // setValue('ingredientes', respuesta.ingredientes);
-        // setValue('instrucciones', respuesta.instrucciones);
-        // setValue('imagen', respuesta.imagen);
-        // setValue('categoria', respuesta.categoria);
       } else {
         Swal.fire(
           'Ocurrio un error',
