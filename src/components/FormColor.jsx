@@ -1,54 +1,29 @@
-import { Card, Form, Button, Alert } from 'react-bootstrap';
+import { Card, Form, Button } from 'react-bootstrap';
 import ListColor from './ListColor';
 import { useState, useEffect } from 'react';
 import { obtenerListaColores } from './helpers/queries';
+import { useForm } from 'react-hook-form';
 
 const FormColor = () => {
-  const [color, setColor] = useState('');
-  const [isValidColor, setIsValidColor] = useState(true);
   const [listaColores, setListaColores] = useState([]);
-  const [alerta, setAlerta] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   useEffect(() => {
-    //localStorage.setItem('listaColores', JSON.stringify(listaColores));
     obtenerListaColores().then((respuesta) => {
       setListaColores(respuesta);
     });
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-
-    if (hexColorRegex.test(color)) {
-      setIsValidColor(true);
-      agregarColor(color);
-    } else {
-      mostrarAlerta('Ingrese un código de color Hex válido.');
-      setIsValidColor(false);
-      setColor('');
-      return;
-    }
+  const onSubmit = (datos) => {
+    console.log('colores', datos);
   };
 
-  const agregarColor = (color) => {
-    setListaColores([...listaColores, color]);
-    setColor('');
-  };
-
-  const borrarColor = (nombreColor) => {
-    let _listaColores = listaColores.filter((item) => item !== nombreColor);
-    setListaColores(_listaColores);
-  };
-
-  const mostrarAlerta = (alerta) => {
-    setAlerta(alerta);
-
-    setTimeout(() => {
-      setAlerta('');
-      setIsValidColor(true);
-    }, 2500);
-  };
   return (
     <>
       <Card>
@@ -56,24 +31,23 @@ const FormColor = () => {
           <Card.Title className="mb-3 text-uppercase display-6 fw-bold">
             Administrar Colores
           </Card.Title>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="inputColor">
-              <Form.Label className="display-6">Ingrese un color:</Form.Label>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="mb-2">
               <Form.Control
+                className="col-sm-9"
                 type="text"
-                placeholder="Ingrese un color en Hexadecimal como por ej: #FF0000"
-                value={color}
-                onChange={(event) => setColor(event.target.value)}
-                style={{ borderColor: isValidColor ? '' : 'red' }}
+                placeholder="Ingrese nombre del color"
+                {...register('nombreColor', {
+                  required: 'El Nombre del color es un dato obligatorio.',
+                  pattern: {
+                    value: /^[A-Za-z]+$/,
+                    message: 'Por favor, ingrese solo letras.',
+                  },
+                })}
               />
-              {alerta && (
-                <Alert
-                  variant="danger"
-                  className="my-2 text-center text-md-start"
-                >
-                  {alerta}
-                </Alert>
-              )}
+              <Form.Text className="text-danger my-2 py-3">
+                {errors.nombreColor?.message}
+              </Form.Text>
             </Form.Group>
 
             <Button variant="success" type="submit">
