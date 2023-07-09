@@ -60,6 +60,52 @@ const FormColor = () => {
               </Form.Text>
             </Form.Group>
 
+            <Form.Group className="mb-2">
+              <Form.Control
+                className="col-sm-9"
+                type="text"
+                placeholder="Ingrese código Hexadecimal"
+                {...register('codigoHexadecimal', {
+                  maxLength: {
+                    value: 7,
+                    message:
+                      'El código Hexadecimal del color no puede superar los 7 caracteres.',
+                  },
+                  pattern: {
+                    value: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
+                    message:
+                      'El código Hexadecimal debe tener un formato como #FF0000.',
+                  },
+                })}
+              />
+              <Form.Text className="text-danger my-2 py-3">
+                {errors.codigoHexadecimal?.message}
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-2">
+              <Form.Control
+                className="col-sm-9"
+                type="text"
+                placeholder="Ingrese código RGB ó RGBA"
+                {...register('codigoRGB', {
+                  maxLength: {
+                    value: 16,
+                    message:
+                      'El código RGB del color no puede superar los 16 caracteres.',
+                  },
+                  pattern: {
+                    value: /^rgb\(\s*(?:\d{1,3}\s*,\s*){2}\d{1,3}\s*\)$/,
+                    message:
+                      'El código RGB ó RGBA debe tener un formato como rgb(255,0,0).',
+                  },
+                })}
+              />
+              <Form.Text className="text-danger my-2 py-3">
+                {errors.codigoRGB?.message}
+              </Form.Text>
+            </Form.Group>
+
             <Button variant="success" type="submit">
               Agregar
             </Button>
