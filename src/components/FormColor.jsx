@@ -39,6 +39,16 @@ const FormColor = () => {
                 placeholder="Ingrese nombre del color"
                 {...register('nombreColor', {
                   required: 'El Nombre del color es un dato obligatorio.',
+                  minLength: {
+                    value: 2,
+                    message:
+                      'La cantidad minima de caracteres es de 2 caracteres',
+                  },
+                  maxLength: {
+                    value: 100,
+                    message:
+                      'La cantidad máxima de caracteres es de 100 caracteres',
+                  },
                   pattern: {
                     value: /^[A-Za-z]+$/,
                     message: 'Por favor, ingrese solo letras.',
