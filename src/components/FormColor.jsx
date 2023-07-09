@@ -1,18 +1,27 @@
 import { Card, Form, Button } from 'react-bootstrap';
 import ListColor from './ListColor';
 import { useState, useEffect } from 'react';
-import { agregarColor, obtenerListaColores } from './helpers/queries';
+import {
+  agregarColor,
+  consultaColor,
+  editarColor,
+  obtenerListaColores,
+} from './helpers/queries';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 const FormColor = () => {
   const [listaColores, setListaColores] = useState([]);
+  const [agregarDisabled, setAgregarDisabled] = useState(false);
+  const [idColor, setIdColor] = useState(0);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    setFocus,
   } = useForm();
 
   useEffect(() => {
@@ -21,25 +30,80 @@ const FormColor = () => {
     });
   }, []);
 
-  const onSubmit = (colorNuevo) => {
-    console.log('colores', colorNuevo);
-    agregarColor(colorNuevo).then((respuestaCreado) => {
-      if (respuestaCreado && respuestaCreado.status === 201) {
-        Swal.fire(
-          'Color creado',
-          `El color ${colorNuevo.nombreColor} fue creado correctamente`,
-          'success'
-        );
-        obtenerListaColores().then((respuesta) => setListaColores(respuesta));
-        reset();
+  const onSubmit = (color) => {
+    !agregarDisabled
+      ? agregarColor(color).then((respuestaCreado) => {
+          if (respuestaCreado && respuestaCreado.status === 201) {
+            Swal.fire(
+              'Color creado',
+              `El color ${color.nombreColor} fue creado correctamente`,
+              'success'
+            );
+            obtenerListaColores().then((respuesta) =>
+              setListaColores(respuesta)
+            );
+            reset();
+          } else {
+            Swal.fire(
+              'Ocurrio un error',
+              `El color ${colorNuevo.nombreColor} no fue creado, intentelo mas tarde`,
+              'error'
+            );
+          }
+        })
+      : editarColor(color, idColor).then((respuestaEditado) => {
+          if (respuestaEditado && respuestaEditado.status === 200) {
+            Swal.fire(
+              'Color editado',
+              `El color ${color.nombreColor} fue editado correctamente`,
+              'success'
+            );
+            obtenerListaColores().then((respuesta) =>
+              setListaColores(respuesta)
+            );
+            reset();
+          } else {
+            Swal.fire(
+              'Ocurrio un error',
+              `El color ${color.nombreColor} no fue editado, intentelo mas tarde`,
+              'error'
+            );
+          }
+        });
+  };
+
+  const handleEditClick = (id) => {
+    reset();
+    setAgregarDisabled(true);
+
+    consultaColor(id).then((respuesta) => {
+      if (respuesta) {
+        console.log('tengo que cargar el objeto en el formulario');
+        console.log(respuesta);
+        setIdColor(id);
+        setFocus('nombreColor');
+        setValue('nombreColor', respuesta.nombreColor);
+        setValue('codigoHexadecimal', respuesta.codigoHexadecimal);
+        setValue('codigoRGB', respuesta.codigoRGB);
+        // setValue('descripcionReceta', respuesta.descripcionReceta);
+        // setValue('ingredientes', respuesta.ingredientes);
+        // setValue('instrucciones', respuesta.instrucciones);
+        // setValue('imagen', respuesta.imagen);
+        // setValue('categoria', respuesta.categoria);
       } else {
         Swal.fire(
           'Ocurrio un error',
-          `El color ${colorNuevo.nombreColor} no fue creado, intentelo mas tarde`,
+          `No se puede editar el color, intentelo mas tarde`,
           'error'
         );
       }
     });
+  };
+
+  const handleCancel = () => {
+    setAgregarDisabled(false);
+    reset();
+    setFocus('nombreColor');
   };
 
   return (
@@ -50,7 +114,12 @@ const FormColor = () => {
             Administrar Colores
           </Card.Title>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-2">
+            <Form.Text
+              className={`display-2 fw-bold ${agregarDisabled ? '' : 'd-none'}`}
+            >
+              ID: {idColor}
+            </Form.Text>
+            <Form.Group className="my-2">
               <Form.Control
                 className="col-sm-9"
                 type="text"
@@ -82,7 +151,7 @@ const FormColor = () => {
               <Form.Control
                 className="col-sm-9"
                 type="text"
-                placeholder="Ingrese código Hexadecimal"
+                placeholder="Ingrese código Hexadecimal (opcional)"
                 {...register('codigoHexadecimal', {
                   maxLength: {
                     value: 7,
@@ -105,7 +174,7 @@ const FormColor = () => {
               <Form.Control
                 className="col-sm-9"
                 type="text"
-                placeholder="Ingrese código RGB ó RGBA"
+                placeholder="Ingrese código RGB ó RGBA (opcional)"
                 {...register('codigoRGB', {
                   maxLength: {
                     value: 16,
@@ -124,13 +193,36 @@ const FormColor = () => {
               </Form.Text>
             </Form.Group>
 
-            <Button variant="success" type="submit">
-              Agregar
-            </Button>
+            {agregarDisabled ? (
+              <>
+                <Button variant="success" type="submit" className="mb-1 me-2">
+                  Agregar
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={!agregarDisabled}
+                  onClick={handleCancel}
+                  className="mb-1"
+                >
+                  Cancelar
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="success"
+                type="submit"
+                disabled={agregarDisabled}
+              >
+                Agregar
+              </Button>
+            )}
           </Form>
         </Card.Body>
       </Card>
-      <ListColor listaColores={listaColores} />
+      <ListColor
+        listaColores={listaColores}
+        handleEditClick={handleEditClick}
+      />
     </>
   );
 };

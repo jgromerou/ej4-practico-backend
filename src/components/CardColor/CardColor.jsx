@@ -1,10 +1,10 @@
 import { Col, Card, Button } from 'react-bootstrap';
 import './card-color.css';
-import React from 'react';
 
-const CardColor = ({ color }) => {
-  const { nombreColor } = color;
+const CardColor = ({ color, handleEditClick }) => {
+  const { nombreColor, _id } = color;
   const colorDiv = { background: color.nombreColor };
+
   return (
     <Col md={6} lg={4} xl={3} className="mb-3">
       <Card>
@@ -13,9 +13,9 @@ const CardColor = ({ color }) => {
           <Card.Title className="fw-bold text-uppercase">
             {nombreColor}
           </Card.Title>
-          {/* <Button variant="danger" onClick={() => borrarColor(nombreColor)}>
-            Borrar
-          </Button> */}
+          <Button variant="warning" onClick={() => handleEditClick(_id)}>
+            Editar
+          </Button>
         </Card.Body>
       </Card>
     </Col>
