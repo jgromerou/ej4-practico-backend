@@ -9,3 +9,18 @@ export const obtenerListaColores = async () => {
     console.log(error);
   }
 };
+
+export const agregarColor = async (color) => {
+  try {
+    const respuesta = await fetch(URLColores, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(color),
+    });
+    return respuesta;
+  } catch (error) {
+    console.log(error);
+  }
+};

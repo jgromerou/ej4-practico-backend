@@ -1,8 +1,9 @@
 import { Card, Form, Button } from 'react-bootstrap';
 import ListColor from './ListColor';
 import { useState, useEffect } from 'react';
-import { obtenerListaColores } from './helpers/queries';
+import { agregarColor, obtenerListaColores } from './helpers/queries';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const FormColor = () => {
   const [listaColores, setListaColores] = useState([]);
@@ -20,8 +21,25 @@ const FormColor = () => {
     });
   }, []);
 
-  const onSubmit = (datos) => {
-    console.log('colores', datos);
+  const onSubmit = (colorNuevo) => {
+    console.log('colores', colorNuevo);
+    agregarColor(colorNuevo).then((respuestaCreado) => {
+      if (respuestaCreado && respuestaCreado.status === 201) {
+        Swal.fire(
+          'Color creado',
+          `El color ${colorNuevo.nombreColor} fue creado correctamente`,
+          'success'
+        );
+        obtenerListaColores().then((respuesta) => setListaColores(respuesta));
+        reset();
+      } else {
+        Swal.fire(
+          'Ocurrio un error',
+          `El color ${colorNuevo.nombreColor} no fue creado, intentelo mas tarde`,
+          'error'
+        );
+      }
+    });
   };
 
   return (
