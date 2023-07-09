@@ -1,12 +1,12 @@
 import { Row } from 'react-bootstrap';
 import CardColor from './CardColor/CardColor';
 
-const ListColor = ({ listaColores, borrarColor }) => {
+const ListColor = ({ listaColores }) => {
   return (
     <>
       <Row className="my-4">
-        {listaColores.map((color, index) => (
-          <CardColor key={index} color={color} borrarColor={borrarColor} />
+        {listaColores.map((color) => (
+          <CardColor key={color._id} color={color} />
         ))}
       </Row>
     </>

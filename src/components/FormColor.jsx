@@ -1,18 +1,20 @@
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import ListColor from './ListColor';
 import { useState, useEffect } from 'react';
+import { obtenerListaColores } from './helpers/queries';
 
 const FormColor = () => {
-  let colorLocalStorage =
-    JSON.parse(localStorage.getItem('listaColores')) || [];
   const [color, setColor] = useState('');
   const [isValidColor, setIsValidColor] = useState(true);
-  const [listaColores, setListaColores] = useState(colorLocalStorage);
+  const [listaColores, setListaColores] = useState([]);
   const [alerta, setAlerta] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('listaColores', JSON.stringify(listaColores));
-  }, [listaColores]);
+    //localStorage.setItem('listaColores', JSON.stringify(listaColores));
+    obtenerListaColores().then((respuesta) => {
+      setListaColores(respuesta);
+    });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -80,7 +82,7 @@ const FormColor = () => {
           </Form>
         </Card.Body>
       </Card>
-      <ListColor listaColores={listaColores} borrarColor={borrarColor} />
+      <ListColor listaColores={listaColores} />
     </>
   );
 };
