@@ -87,11 +87,13 @@ const FormColor = () => {
               setMostrarSpinner(false);
             } else {
               if (respuestaEditado.status === 400) {
-                Swal.fire(
-                  'Ocurrio un error',
-                  `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
-                  'error'
-                );
+                respuestaEditado.json().then((respuesta) => {
+                  Swal.fire(
+                    'Ocurrio un error',
+                    `${respuesta.mensaje}`,
+                    'error'
+                  );
+                });
                 return;
               }
               Swal.fire(
