@@ -1,4 +1,4 @@
-import { Card, Form, Button } from 'react-bootstrap';
+import { Card, Form, Button, Alert } from 'react-bootstrap';
 import ListColor from './ListColor';
 import { useState, useEffect } from 'react';
 import {
@@ -230,11 +230,18 @@ const FormColor = () => {
           </Form>
         </Card.Body>
       </Card>
-      <ListColor
-        listaColores={listaColores}
-        handleEditClick={handleEditClick}
-        setListaColores={setListaColores}
-      />
+
+      {listaColores && listaColores.length > 0 ? (
+        <ListColor
+          listaColores={listaColores}
+          handleEditClick={handleEditClick}
+          setListaColores={setListaColores}
+        />
+      ) : (
+        <Alert variant="light" className="py-2 my-2">
+          <p className="display-5">No hay colores disponibles</p>
+        </Alert>
+      )}
     </>
   );
 };
