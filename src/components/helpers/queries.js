@@ -49,3 +49,14 @@ export const editarColor = async (color, id) => {
     console.log(error);
   }
 };
+
+export const borrarTarea = async (id) => {
+  try {
+    const respuesta = await fetch(`${URLColores}/${id}`, {
+      method: 'DELETE',
+    });
+    return respuesta;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -233,6 +233,7 @@ const FormColor = () => {
       <ListColor
         listaColores={listaColores}
         handleEditClick={handleEditClick}
+        setListaColores={setListaColores}
       />
     </>
   );
