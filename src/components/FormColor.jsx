@@ -14,6 +14,7 @@ const FormColor = () => {
   const [listaColores, setListaColores] = useState([]);
   const [agregarDisabled, setAgregarDisabled] = useState(false);
   const [idColor, setIdColor] = useState(0);
+  const [mostrarSpinner, setMostrarSpinner] = useState(false);
 
   const {
     register,
@@ -25,67 +26,85 @@ const FormColor = () => {
   } = useForm();
 
   useEffect(() => {
+    setMostrarSpinner(true);
     obtenerListaColores().then((respuesta) => {
       setListaColores(respuesta);
+      setMostrarSpinner(false);
     });
   }, []);
 
   const onSubmit = (color) => {
+    setMostrarSpinner(true);
     !agregarDisabled
-      ? agregarColor(color).then((respuestaCreado) => {
-          if (respuestaCreado && respuestaCreado.status === 201) {
-            Swal.fire(
-              'Color creado',
-              `El color ${color.nombreColor} fue creado correctamente`,
-              'success'
-            );
-            obtenerListaColores().then((respuesta) =>
-              setListaColores(respuesta)
-            );
-            reset();
-          } else {
-            if (respuestaCreado.status === 400) {
+      ? agregarColor(color)
+          .then((respuestaCreado) => {
+            if (respuestaCreado && respuestaCreado.status === 201) {
+              Swal.fire(
+                'Color creado',
+                `El color ${color.nombreColor} fue creado correctamente`,
+                'success'
+              );
+              obtenerListaColores().then((respuesta) =>
+                setListaColores(respuesta)
+              );
+              reset();
+              setMostrarSpinner(false);
+            } else {
+              if (respuestaCreado.status === 400) {
+                setMostrarSpinner(false);
+                Swal.fire(
+                  'Ocurrio un error',
+                  `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                  'error'
+                );
+                return;
+              }
+
               Swal.fire(
                 'Ocurrio un error',
-                `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                `El color ${color.nombreColor} no fue creado, intentelo mas tarde`,
                 'error'
               );
-              return;
             }
-            Swal.fire(
-              'Ocurrio un error',
-              `El color ${color.nombreColor} no fue creado, intentelo mas tarde`,
-              'error'
-            );
-          }
-        })
-      : editarColor(color, idColor).then((respuestaEditado) => {
-          if (respuestaEditado && respuestaEditado.status === 200) {
-            Swal.fire(
-              'Color editado',
-              `El color ${color.nombreColor} fue editado correctamente`,
-              'success'
-            );
-            obtenerListaColores().then((respuesta) =>
-              setListaColores(respuesta)
-            );
-            reset();
-          } else {
-            if (respuestaEditado.status === 400) {
+          })
+          .catch((error) => {
+            console.log(error);
+            setMostrarSpinner(false);
+          })
+      : editarColor(color, idColor)
+          .then((respuestaEditado) => {
+            if (respuestaEditado && respuestaEditado.status === 200) {
+              Swal.fire(
+                'Color editado',
+                `El color ${color.nombreColor} fue editado correctamente`,
+                'success'
+              );
+              obtenerListaColores().then((respuesta) =>
+                setListaColores(respuesta)
+              );
+
+              reset();
+              setMostrarSpinner(false);
+            } else {
+              if (respuestaEditado.status === 400) {
+                Swal.fire(
+                  'Ocurrio un error',
+                  `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                  'error'
+                );
+                return;
+              }
               Swal.fire(
                 'Ocurrio un error',
-                `El color ${color.nombreColor} ya existe, intente con otro nuevo`,
+                `El color ${color.nombreColor} no fue editado, intentelo mas tarde`,
                 'error'
               );
-              return;
             }
-            Swal.fire(
-              'Ocurrio un error',
-              `El color ${color.nombreColor} no fue editado, intentelo mas tarde`,
-              'error'
-            );
-          }
-        });
+          })
+          .catch((error) => {
+            console.log(error);
+            setMostrarSpinner(false);
+          });
   };
 
   const handleEditClick = (id) => {
@@ -237,6 +256,21 @@ const FormColor = () => {
           handleEditClick={handleEditClick}
           setListaColores={setListaColores}
         />
+      ) : mostrarSpinner ? (
+        <div className="sk-circle">
+          <div className="sk-circle1 sk-child"></div>
+          <div className="sk-circle2 sk-child"></div>
+          <div className="sk-circle3 sk-child"></div>
+          <div className="sk-circle4 sk-child"></div>
+          <div className="sk-circle5 sk-child"></div>
+          <div className="sk-circle6 sk-child"></div>
+          <div className="sk-circle7 sk-child"></div>
+          <div className="sk-circle8 sk-child"></div>
+          <div className="sk-circle9 sk-child"></div>
+          <div className="sk-circle10 sk-child"></div>
+          <div className="sk-circle11 sk-child"></div>
+          <div className="sk-circle12 sk-child"></div>
+        </div>
       ) : (
         <Alert variant="light" className="py-2 my-2">
           <p className="display-5">No hay colores disponibles</p>
