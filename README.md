@@ -50,6 +50,10 @@ Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
 
 5.  **Accede a la aplicación:** Abre tu navegador web y visita la siguiente URL: _http://localhost:5173_. La aplicación debería cargarse y estar lista para usar.
 
+## Repositorio Backend
+
+[Backend Paleta de Colores](https://github.com/jgromerou/ej3-practico-backend)
+
 ## Autor
 
 1. Juan Gerardo Romero Uro [github](https://github.com/jgromerou)
