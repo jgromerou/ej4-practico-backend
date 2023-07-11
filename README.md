@@ -1,13 +1,9 @@
-# Ejercicio 4 del TP de Backend ![React Icon](./src/assets/react.svg)
+# Ejercicio 4 del TP de Backend: Frontend Paleta de Colores![React Icon](./src/assets/react.svg)
 
 ## Descripción
 
-Crear un proyecto de react que muestre un formulario con un input y un button
-que permite guardar un color en el Backend.
-
-## Link Versión en Producción
-
-(Aún no disponible)
+Unir el proyecto anterior con el proyecto de frontend desarrollado en el módulo de react,
+realizar los cambios necesarios para poder implementar todos los endpoints.
 
 ## Tecnologias / Herramientas 🛠
 
@@ -31,7 +27,7 @@ Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
 2.  **Accede al directorio:** Ve al directorio de la aplicación clonada:
 
     ```
-    cd <nombre de la carpeta>
+    cd ej4-practico-backend
     ```
 
 3.  **Instala las dependencias:** Ejecuta el siguiente comando para instalar las dependencias de la aplicación:
