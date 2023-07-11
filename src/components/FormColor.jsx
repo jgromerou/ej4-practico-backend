@@ -86,19 +86,9 @@ const FormColor = () => {
               reset();
               setMostrarSpinner(false);
             } else {
-              if (respuestaEditado.status === 400) {
-                respuestaEditado.json().then((respuesta) => {
-                  Swal.fire(
-                    'Ocurrio un error',
-                    `${respuesta.mensaje}`,
-                    'error'
-                  );
-                });
-                return;
-              }
               Swal.fire(
                 'Ocurrio un error',
-                `El color ${color.nombreColor} no fue editado, intentelo mas tarde`,
+                `El color ${color.nombreColor} no fue editado, ya existe un color con ese nombre. Intente con otro`,
                 'error'
               );
             }
