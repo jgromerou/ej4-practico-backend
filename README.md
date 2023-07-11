@@ -1,13 +1,9 @@
-# Ejercicio 6 del TP1: React ![React Icon](./src/assets/react.svg)
+# Ejercicio 4 del TP de Backend: Frontend Paleta de Colores![React Icon](./src/assets/react.svg)
 
 ## Descripción
 
-Crear un proyecto de react que muestre un formulario con un input y un button
-que permite guardar un color en el localstorage.
-
-## Link Versión en Producción
-
-[Netlify](https://ej6-tp1-react-rollingcode-romerouro.netlify.app/)
+Unir el proyecto anterior con el proyecto de frontend desarrollado en el módulo de react,
+realizar los cambios necesarios para poder implementar todos los endpoints.
 
 ## Tecnologias / Herramientas 🛠
 
@@ -18,6 +14,12 @@ que permite guardar un color en el localstorage.
 - [React-Bootstrap](https://react-bootstrap.github.io/)
 - [Markdown](https://markdown.es/)
 
+## Para entorno **Local**:
+
+creamos el archivo .env y agregamos las siguientes variables de entorno
+
+- VITE_API_COLORES=http://localhost:4000/apicolores/colores
+
 ## Pasos para clonar y ejecutar la Aplicación 🖥
 
 Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
@@ -25,13 +27,13 @@ Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
 1.  **Clona el repositorio:** En tu línea de comandos, ejecuta el siguiente comando para clonar el repositorio:
 
     ```
-    git clone https://github.com/jgromerou/ej6-practico1-react.git
+    git clone https://github.com/jgromerou/ej4-practico-backend.git
     ```
 
 2.  **Accede al directorio:** Ve al directorio de la aplicación clonada:
 
     ```
-    cd <nombre de la carpeta>
+    cd ej4-practico-backend
     ```
 
 3.  **Instala las dependencias:** Ejecuta el siguiente comando para instalar las dependencias de la aplicación:
