@@ -115,8 +115,6 @@ const FormColor = () => {
 
     consultaColor(id).then((respuesta) => {
       if (respuesta) {
-        console.log('tengo que cargar el objeto en el formulario');
-        console.log(respuesta);
         setIdColor(id);
         setFocus('nombreColor');
         setValue('nombreColor', respuesta.nombreColor);
