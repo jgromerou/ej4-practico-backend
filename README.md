@@ -14,6 +14,12 @@ realizar los cambios necesarios para poder implementar todos los endpoints.
 - [React-Bootstrap](https://react-bootstrap.github.io/)
 - [Markdown](https://markdown.es/)
 
+## Para entorno **Local**:
+
+creamos el archivo .env y agregamos las siguientes variables de entorno
+
+- VITE_API_COLORES=http://localhost:4000/apicolores/colores
+
 ## Pasos para clonar y ejecutar la Aplicación 🖥
 
 Sigue estos pasos para clonar y ejecutar la aplicación en tu entorno local:
