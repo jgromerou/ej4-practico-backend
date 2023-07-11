@@ -26,10 +26,20 @@ const FormColor = () => {
   } = useForm();
 
   useEffect(() => {
-    setMostrarSpinner(true);
     obtenerListaColores().then((respuesta) => {
       setListaColores(respuesta);
-      setMostrarSpinner(false);
+      setMostrarSpinner(true);
+      if (respuesta === undefined) {
+        Swal.fire({
+          title: 'Ocurrió un error',
+          text: 'Algo salió mal, inténtelo más tarde.',
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+        });
+        return;
+      }
     });
   }, []);
 
@@ -242,13 +252,17 @@ const FormColor = () => {
         </Card.Body>
       </Card>
 
-      {listaColores && listaColores.length > 0 ? (
+      {listaColores.length > 0 ? (
         <ListColor
           listaColores={listaColores}
           handleEditClick={handleEditClick}
           setListaColores={setListaColores}
         />
       ) : mostrarSpinner ? (
+        <Alert variant="light" className="py-2 my-2">
+          <p className="display-5">No hay colores disponibles</p>
+        </Alert>
+      ) : (
         <div className="sk-circle">
           <div className="sk-circle1 sk-child"></div>
           <div className="sk-circle2 sk-child"></div>
@@ -263,10 +277,6 @@ const FormColor = () => {
           <div className="sk-circle11 sk-child"></div>
           <div className="sk-circle12 sk-child"></div>
         </div>
-      ) : (
-        <Alert variant="light" className="py-2 my-2">
-          <p className="display-5">No hay colores disponibles</p>
-        </Alert>
       )}
     </>
   );
